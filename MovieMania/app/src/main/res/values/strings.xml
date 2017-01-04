@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Movie Mania</string>
+    <string name="movie_rating">movie rating</string>
+    <string name="original_title">original text</string>
+    <string name="release_date">Release Date:</string>
+    <string name="error_message">Failed To Load Results...Try Again</string>
+    <string name="trailer">Trailer</string>
+    <string name="button_reviews">Reviews</string>
+    <string name="button_trailers">Trailers</string>
+    <string name="author">Author</string>
+    <string name="content">TextView</string>
+    <string name="sort_popularity">Sort By Popularity</string>
+    <string name="sort_rating">Sort By Rating</string>
+    <string name="favourites_list">Favourites List</string>
+    <string name="delete">Delete</string>
+    <string name="items_selected">0 Items Selected</string>
+</resources>
