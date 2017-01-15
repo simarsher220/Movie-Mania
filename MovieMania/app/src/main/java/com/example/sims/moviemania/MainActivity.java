@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     private static final String TOP_RATED = "top_rated";
     private static final String API_PARAM = "api_key";
     //TODO(1) enter the API_KEY in the API_VALUE
-    private static final String API_VALUE = "9e4561906e8ceeba1f6f963b2beee6dc";
+    private static final String API_VALUE = "";
     private static final String LANG_PARAM = "language";
     private static final String LANG_VALUE = "en-US";
     private static final String PAGE_PARAM = "page";

@@ -21,7 +21,7 @@ public class TrailerAndReviews extends AppCompatActivity {
     private static final String BASIC_URL3 = "/reviews";
     private static final String API_PARAM = "api_key";
     //TODO(2) enter the API_KEY in the API_VALUE
-    private static final String API_VALUE = "9e4561906e8ceeba1f6f963b2beee6dc";
+    private static final String API_VALUE = "";
     private static final String LANG_PARAM = "language";
     private static final String LANG_VALUE = "en-US";
     private static final String PAGE_PARAM = "page";
