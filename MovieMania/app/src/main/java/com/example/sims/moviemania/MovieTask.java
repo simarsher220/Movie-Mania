@@ -32,10 +32,8 @@ public class MovieTask extends AsyncTask<URL, Void, List<MovieItem>> {
     private Context context;
     private Activity activity;
     ProgressDialog dialog;
-    private int sortParam;
-    public MovieTask(Context context, int sortParam) {
+    public MovieTask(Context context) {
         this.context = context;
-        this.sortParam = sortParam;
         activity = (Activity) context;
     }
 
@@ -68,26 +66,7 @@ public class MovieTask extends AsyncTask<URL, Void, List<MovieItem>> {
                 double popularity = jsonObject.getDouble("popularity");
                 movieItemList.add(new MovieItem(original_title, poster_path, overview, vote_average, release_date, id, popularity));
             }
-            switch (sortParam){
-                case R.id.popularity:
-                    Collections.sort(movieItemList, new Comparator<MovieItem>(){
-                        public int compare(MovieItem item1, MovieItem item2) {
-                            return Double.valueOf(item2.getPopularity()).compareTo(item1.getPopularity());
-                        }
-                    });
-                    break;
 
-                case R.id.top_rated:
-                    Collections.sort(movieItemList, new Comparator<MovieItem>(){
-                        public int compare(MovieItem item1, MovieItem item2) {
-                            return Double.valueOf(item2.getVoteAverage()).compareTo(item1.getVoteAverage());
-                        }
-                    });
-                    break;
-
-                case 0: break;
-
-            }
             return movieItemList;
         } catch (IOException e) {
             e.printStackTrace();

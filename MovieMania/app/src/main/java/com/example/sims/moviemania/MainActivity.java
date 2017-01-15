@@ -16,7 +16,10 @@ import java.net.URL;
 
 public class MainActivity extends AppCompatActivity implements MovieAdapter.MovieItemClickListener{
 
-    private static final String BASE_URL = "https://api.themoviedb.org/3/movie/now_playing";
+    private static final String BASE_URL = "https://api.themoviedb.org/3/movie/";
+    private static final String NOW_PLAYING = "now_playing";
+    private static final String POPULARITY = "popular";
+    private static final String TOP_RATED = "top_rated";
     private static final String API_PARAM = "api_key";
     //TODO(1) enter the API_KEY in the API_VALUE
     private static final String API_VALUE = "9e4561906e8ceeba1f6f963b2beee6dc";
@@ -31,16 +34,8 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Uri uri = Uri.parse(BASE_URL).buildUpon()
-                .appendQueryParameter(API_PARAM, API_VALUE)
-                .appendQueryParameter(LANG_PARAM, LANG_VALUE)
-                .appendQueryParameter(PAGE_PARAM, PAGE_VALUE).build();
-        url = null;
-        try {
-            url = new URL(uri.toString());
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
+        Uri uri = buildNowPlayingyUri();
+        url = buildUrl(uri);
 
         DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
         .cacheInMemory(true)
@@ -51,7 +46,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         .build();
         ImageLoader.getInstance().init(config);
 
-        new MovieTask(this, 0).execute(url);
+        new MovieTask(this).execute(url);
     }
 
     @Override
@@ -70,16 +65,51 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        Uri uri;
         switch (item.getItemId()){
             case R.id.popularity:
-                new MovieTask(this, R.id.popularity).execute(url);
+                uri = buildPopularityUri();
+                url = buildUrl(uri);
+                new MovieTask(this).execute(url);
                 break;
             case R.id.top_rated:
-                new MovieTask(this, R.id.top_rated).execute(url);
+                uri = buildTopRatedUri();
+                url = buildUrl(uri);
+                new MovieTask(this).execute(url);
                 break;
             case R.id.favourites_list:
                 startActivity(new Intent(this, FavouritesActivity.class));
         }
         return true;
+    }
+
+    public Uri buildTopRatedUri(){
+        return Uri.parse(BASE_URL+TOP_RATED).buildUpon()
+                .appendQueryParameter(API_PARAM, API_VALUE)
+                .appendQueryParameter(LANG_PARAM, LANG_VALUE)
+                .appendQueryParameter(PAGE_PARAM, PAGE_VALUE).build();
+    }
+
+    public Uri buildPopularityUri(){
+        return Uri.parse(BASE_URL+POPULARITY).buildUpon()
+                .appendQueryParameter(API_PARAM, API_VALUE)
+                .appendQueryParameter(LANG_PARAM, LANG_VALUE)
+                .appendQueryParameter(PAGE_PARAM, PAGE_VALUE).build();
+    }
+
+    public Uri buildNowPlayingyUri(){
+        return Uri.parse(BASE_URL+NOW_PLAYING).buildUpon()
+                .appendQueryParameter(API_PARAM, API_VALUE)
+                .appendQueryParameter(LANG_PARAM, LANG_VALUE)
+                .appendQueryParameter(PAGE_PARAM, PAGE_VALUE).build();
+    }
+    public URL buildUrl(Uri uri){
+        URL url = null;
+        try {
+            url = new URL(uri.toString());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        return url;
     }
 }

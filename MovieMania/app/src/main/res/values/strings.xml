@@ -9,8 +9,8 @@
     <string name="button_trailers">Trailers</string>
     <string name="author">Author</string>
     <string name="content">TextView</string>
-    <string name="sort_popularity">Sort By Popularity</string>
-    <string name="sort_rating">Sort By Rating</string>
+    <string name="sort_popularity">Popular</string>
+    <string name="sort_rating">Top Rated</string>
     <string name="favourites_list">Favourites List</string>
     <string name="delete">Delete</string>
     <string name="items_selected">0 Items Selected</string>

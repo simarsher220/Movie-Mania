@@ -2,8 +2,10 @@ package com.example.sims.moviemania;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MenuItem;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -29,6 +31,8 @@ public class TrailerAndReviews extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trailer_and_reviews);
 
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
         Intent i = getIntent();
         if (i.resolveActivity(getPackageManager()) != null){
             String action = i.getStringExtra(Intent.EXTRA_TEXT);
@@ -67,5 +71,14 @@ public class TrailerAndReviews extends AppCompatActivity {
             e.printStackTrace();
         }
         return  url;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == android.R.id.home){
+            onBackPressed();
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
