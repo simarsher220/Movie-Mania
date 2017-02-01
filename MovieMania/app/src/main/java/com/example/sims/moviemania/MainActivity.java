@@ -7,6 +7,9 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.sims.moviemania.Movie.MovieAdapter;
+import com.example.sims.moviemania.Movie.MovieItem;
+import com.example.sims.moviemania.Movie.MovieTask;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;

@@ -5,4 +5,6 @@
     <color name="colorAccent">#FF4081</color>
     <color name="colorSelect">#FF0000</color>
     <color name="colorBlack">#000000</color>
+    <color name="colorButtonDefault">#7ab800</color>
+    <color name="colorButtonFocussed">#9bd823</color>
 </resources>

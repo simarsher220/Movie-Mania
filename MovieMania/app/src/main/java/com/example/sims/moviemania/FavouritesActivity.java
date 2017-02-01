@@ -3,20 +3,18 @@ package com.example.sims.moviemania;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
+import com.example.sims.moviemania.Favourites.FavouriteTask;
+import com.example.sims.moviemania.Favourites.FavouritesContract;
+import com.example.sims.moviemania.Favourites.FavouritesHelper;
+import com.example.sims.moviemania.Movie.MovieItem;
+import com.example.sims.moviemania.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +39,7 @@ public class FavouritesActivity extends AppCompatActivity implements View.OnLong
         itemsSelected = (TextView) findViewById(R.id.items_selected);
         itemsSelected.setVisibility(View.INVISIBLE);
         appName = (TextView) findViewById(R.id.app_name);
-        selectionList = new ArrayList<MovieItem>();
+        selectionList = new ArrayList<>();
         counter = 0;
     }
 
@@ -63,10 +61,11 @@ public class FavouritesActivity extends AppCompatActivity implements View.OnLong
                 task.execute();
                 break;
             case R.id.del_favourites:
-                FavouritesHelper helper = new FavouritesHelper(this);
-                SQLiteDatabase db = helper.getWritableDatabase();
                 for (MovieItem movieItem : selectionList){
-                    helper.delete(db, movieItem);
+                    getContentResolver().delete(FavouritesContract.FavouritesEntry.CONTENT_URI.buildUpon().
+                                    appendPath(movieItem.getMovieId()+"")
+                                    .build()
+                            , null, null);
                 }
                 clearActionMode();
                 break;
@@ -105,13 +104,13 @@ public class FavouritesActivity extends AppCompatActivity implements View.OnLong
         if (view.isSelected()){
             selectionList.remove(item);
             counter--;
-            itemsSelected.setText(counter+" Items Selected");
+            itemsSelected.setText(counter+" "+getResources().getQuantityString(R.plurals.items_selected, counter));
             view.setSelected(false);
         }
         else{
             selectionList.add(item);
             counter++;
-            itemsSelected.setText(counter+" Items Selected");
+            itemsSelected.setText(counter+" "+getResources().getQuantityString(R.plurals.items_selected, counter));
             view.setSelected(true);
         }
     }

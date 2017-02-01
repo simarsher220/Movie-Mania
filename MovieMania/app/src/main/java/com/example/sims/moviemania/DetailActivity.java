@@ -1,7 +1,10 @@
 package com.example.sims.moviemania;
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -10,6 +13,9 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.sims.moviemania.Favourites.FavouritesContract;
+import com.example.sims.moviemania.Favourites.FavouritesHelper;
+import com.example.sims.moviemania.Movie.MovieItem;
 import com.like.LikeButton;
 import com.like.OnLikeListener;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -69,9 +75,12 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
                     movieRating.setRating(rating);
                 }
             });
-            FavouritesHelper favouritesHelper = new FavouritesHelper(this);
-            SQLiteDatabase db = favouritesHelper.getReadableDatabase();
-            Cursor cr = favouritesHelper.select(db, item);
+
+            ContentResolver resolver = getContentResolver();
+            Cursor cr = resolver.query(FavouritesContract.FavouritesEntry.CONTENT_URI.buildUpon().
+                    appendPath(item.getMovieId()+"")
+                    .build(),
+                    null, null, null, null);
             if (cr.getCount() == 0){
                 favourites.setLiked(false);
             }
@@ -85,25 +94,34 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         favourites.setOnLikeListener(new OnLikeListener() {
             @Override
             public void liked(LikeButton likeButton) {
-                FavouritesHelper helper = new FavouritesHelper(getApplicationContext());
-                SQLiteDatabase db = helper.getWritableDatabase();
-                helper.insert(db, item);
-                Toast.makeText(DetailActivity.this, "Added To Favourites", Toast.LENGTH_SHORT).show();
+                ContentValues cv = new ContentValues();
+                cv.put(FavouritesContract.FavouritesEntry.TITLE, item.getOriginalTitle());
+                cv.put(FavouritesContract.FavouritesEntry.OVERVIEW, item.getOverview());
+                cv.put(FavouritesContract.FavouritesEntry.POPULARITY, item.getPopularity());
+                cv.put(FavouritesContract.FavouritesEntry.POSTER_PATH, item.getPosterPath());
+                cv.put(FavouritesContract.FavouritesEntry.RELEASE_DATE, item.getReleaseDate());
+                cv.put(FavouritesContract.FavouritesEntry.RATING, item.getVoteAverage());
+                cv.put(FavouritesContract.FavouritesEntry.MOVIE_ID, item.getMovieId());
+                Uri uri = getContentResolver().insert(FavouritesContract.FavouritesEntry.CONTENT_URI, cv);
+                if (uri != null) {
+                    Toast.makeText(DetailActivity.this, R.string.add_favourites, Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override
             public void unLiked(LikeButton likeButton) {
-                FavouritesHelper helper = new FavouritesHelper(getApplicationContext());
-                SQLiteDatabase db = helper.getWritableDatabase();
-                helper.delete(db, item);
-                Toast.makeText(DetailActivity.this, "Removed From Favourites", Toast.LENGTH_SHORT).show();
+                getContentResolver().delete(FavouritesContract.FavouritesEntry.CONTENT_URI.buildUpon().
+                                appendPath(item.getMovieId()+"")
+                                .build()
+                        , null, null);
+                Toast.makeText(DetailActivity.this, R.string.delete_favourites, Toast.LENGTH_SHORT).show();
             }
         });
     }
 
     @Override
     public void onClick(View view) {
-        Intent i = new Intent(DetailActivity.this, TrailerAndReviews.class);
+        Intent i = new Intent(DetailActivity.this, TrailerAndReviewsActivity.class);
         i.putExtra("MOVIE_ID", id);
         if (view.getId() == R.id.btn_trailers) {
             i.putExtra(Intent.EXTRA_TEXT, "trailers");

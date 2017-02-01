@@ -27,13 +27,19 @@
                 android:name="com.android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
-        <activity android:name=".TrailerAndReviews"
+        <activity android:name=".TrailerAndReviewsActivity"
             android:screenOrientation="portrait">
         </activity>
         <activity android:name=".FavouritesActivity"
             android:theme="@style/ActivityTheme"
             android:screenOrientation="portrait">
         </activity>
+
+        <provider
+            android:authorities="com.example.sims.moviemania"
+            android:name="com.example.sims.moviemania.Favourites.FavouritesProvider"
+            android:exported="false"/>
+
     </application>
 
 </manifest>

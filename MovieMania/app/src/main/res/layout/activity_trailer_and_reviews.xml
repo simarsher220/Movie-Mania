@@ -4,8 +4,8 @@
     android:id="@+id/activity_trailer_and_reviews"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.sims.moviemania.TrailerAndReviews"
-    android:background="#FFFFFF">
+    tools:context="com.example.sims.moviemania.TrailerAndReviewsActivity"
+    android:background="@android:color/white">
 
     <ListView
         android:layout_width="match_parent"

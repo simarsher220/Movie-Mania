@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.sims.moviemania.FavouritesActivity"
-    android:background="#FFFFFF">
+    android:background="@android:color/white">
 
     <include
         layout="@layout/fav_selection"/>
